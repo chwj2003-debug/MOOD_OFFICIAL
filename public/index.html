@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mood - 나만의 분위기를 찾다</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Pretendard:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /* 1. RESET & BASE STYLES */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        :root {
+            --primary-light: #DBCFE2; --primary-dark: #522869; --text-main: #333333; --bg-color: #FAFAFC;
+            --sale-color: #E74C3C; /* 세일 강조 컬러 (Red) */
+        }
+        body {
+            background-color: var(--bg-color);
+            font-family: 'Pretendard', sans-serif;
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+            word-break: keep-all; /* 한글 줄바꿈 최적화 */
+            overflow-wrap: break-word;
+        }
+        a { text-decoration: none; color: inherit; transition: all 0.3s ease; cursor: pointer; }
+        ul { list-style: none; }
+        img { max-width: 100%; display: block; }
+
+        /* Typography */
+        .serif-font, .logo, .footer-logo { font-family: 'Playfair Display', serif; }
+        h1, h2, h3, h4, h5, h6 { font-family: 'Pretendard', sans-serif; font-weight: 700; }
+
+        .section-title {
+            font-size: 36px; font-weight: 700; margin-bottom: 60px;
+            text-align: center; position: relative; color: var(--primary-dark);
+        }
+        .section-title::after {
+            content: ''; display: block; width: 50px; height: 3px;
+            background: var(--primary-light); margin: 20px auto 0;
+        }
+
+        /* 2. HEADER & NAVIGATION */
+        header {
+            position: fixed; top: 0; left: 0; width: 100%;
+            background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px);
+            z-index: 1000; box-shadow: 0 2px 20px rgba(82, 40, 105, 0.05);
+            padding: 15px 40px; display: flex; justify-content: space-between; align-items: center;
+        }
+        .logo { font-size: 26px; font-weight: 700; font-style: italic; color: var(--primary-dark); }
+        nav ul { display: flex; gap: 40px; }
+        nav a { font-size: 16px; font-weight: 500; color: #555; }
+        nav a:hover, nav a.active { color: var(--primary-dark); font-weight: 700; }
+        .btn-reservation {
+            background-color: var(--primary-dark); color: #fff;
+            padding: 10px 28px; border-radius: 30px; font-size: 14px; font-weight: 600;
+            transition: background 0.3s;
+        }
+        .btn-reservation:hover { background-color: #3e1e50; transform: translateY(-2px); }
+
+        /* 3. LANDING PAGE CONTENT STYLES */
+        #hero {
+            height: 100vh; width: 100%;
+            background-image: url('https://i.ifh.cc/kXCzdy.jpg');
+            background-size: cover; background-position: center; background-repeat: no-repeat;
+            position: relative; display: flex; align-items: center; justify-content: center;
+            text-align: center; color: #fff;
+        }
+        #hero::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(82, 40, 105, 0.2); z-index: 1;
+        }
+        .hero-content { position: relative; z-index: 2; max-width: 800px; padding: 0 20px; animation: fadeIn 1.5s ease-out; }
+        .hero-text { font-size: 24px; font-weight: 500; margin-bottom: 30px; }
+        .btn-hero {
+            display: inline-block; border: 1px solid rgba(255,255,255,0.6); color: #fff;
+            padding: 14px 40px; font-size: 16px; font-weight: 500; border-radius: 50px;
+            transition: all 0.3s; background: rgba(255,255,255,0.1); backdrop-filter: blur(5px);
+        }
+        .btn-hero:hover {
+            background: var(--primary-light); color: var(--primary-dark); border-color: var(--primary-light); font-weight: 700;
+        }
+
+        section { padding: 100px 5%; max-width: 1200px; margin: 0 auto; }
+
+        /* Philosophy */
+        #philosophy { display: flex; align-items: center; gap: 60px; }
+        .text-content { flex: 1; }
+        .story-title { font-size: 32px; margin-bottom: 10px; color: var(--primary-dark); }
+        .text-content h3 { font-size: 28px; margin-bottom: 30px; font-weight: 600; color: var(--primary-dark); line-height: 1.4; }
+        .text-content p { margin-bottom: 15px; color: #666; font-size: 17px; }
+        .story-highlight { margin-top: 20px; font-weight: 600; color: var(--primary-dark); font-size: 18px; }
+        .image-box { flex: 1; border-radius: 20px; overflow: hidden; box-shadow: 20px 20px 0px var(--primary-light); width: 100%; }
+        .image-box img { width: 100%; transition: transform 0.5s; object-fit: cover; }
+        .image-box:hover img { transform: scale(1.05); }
+
+        /* Programs */
+        .program-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
+        .program-card {
+            background: #fff; border-radius: 20px; overflow: hidden;
+            box-shadow: 0 10px 30px rgba(82, 40, 105, 0.08); transition: all 0.4s ease;
+            text-align: left; padding-bottom: 20px;
+        }
+        .program-card:hover { transform: translateY(-15px); box-shadow: 0 20px 40px rgba(82, 40, 105, 0.15); }
+        .program-img-box { width: 100%; height: 250px; overflow: hidden; }
+        .program-img-box img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+        .program-card:hover .program-img-box img { transform: scale(1.1); }
+        .program-info { padding: 30px 30px 10px 30px; }
+        .program-info h4 { font-size: 22px; margin-bottom: 10px; color: #222; }
+        .program-info p { font-size: 16px; color: #666; line-height: 1.5; }
+
+        /* Process */
+        #process { background-color: #F6F4F8; width: 100%; max-width: none; padding: 100px 5%; }
+        .process-container { max-width: 1200px; margin: 0 auto; }
+        .steps { display: flex; justify-content: space-between; position: relative; margin-top: 60px; }
+        .steps::before {
+            content: ''; position: absolute; top: 30px; left: 0; width: 100%; height: 2px;
+            background: linear-gradient(to right, var(--primary-light), var(--primary-dark)); z-index: 0; opacity: 0.3;
+        }
+        .step-item { position: relative; z-index: 1; text-align: center; width: 270px; padding: 0 5px; }
+        .step-num {
+            width: 60px; height: 60px; background: #fff; border: 2px solid var(--primary-dark);
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 20px; font-weight: 800; color: var(--primary-dark); font-size: 18px;
+            font-family: 'Playfair Display', serif; box-shadow: 0 5px 15px rgba(82, 40, 105, 0.1);
+        }
+        .step-item h4 { font-size: 18px; margin-bottom: 8px; color: var(--primary-dark); }
+        .step-item p { font-size: 14px; color: #666; }
+
+        /* About */
+        #about { display: flex; align-items: center; gap: 60px; }
+        .instructor-img { flex: 1; height: 500px; object-fit: cover; border-radius: 20px 0 20px 0; box-shadow: -15px 15px 0 var(--primary-light); width: 100%; }
+        .instructor-info { flex: 1; }
+        .instructor-info h3 { font-size: 32px; margin-bottom: 5px; color: #222; }
+        .instructor-role { color: var(--primary-dark); font-weight: 600; margin-bottom: 25px; display: block; font-size: 15px; }
+        .instructor-info > p { margin-bottom: 25px; color: #666; }
+        .career-list li { margin-bottom: 12px; position: relative; padding-left: 20px; color: #555; }
+        .career-list li::before { content: '✦'; color: var(--primary-dark); position: absolute; left: 0; font-size: 12px; top: 3px; }
+
+        /* Space & Product */
+        #space-product { background-color: #FAFAFC; padding: 100px 5%; }
+        .sp-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; max-width: 1200px; margin: 0 auto; }
+        .sp-card {
+            position: relative; height: 600px; border-radius: 20px; overflow: hidden;
+            box-shadow: 0 20px 40px rgba(82, 40, 105, 0.1); cursor: pointer;
+        }
+        .sp-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s; }
+        .sp-card:hover img { transform: scale(1.05); }
+        .sp-overlay {
+            position: absolute; bottom: 0; left: 0; width: 100%; padding: 50px 40px;
+            background: linear-gradient(to top, rgba(42, 27, 54, 0.8), transparent);
+            color: #fff; transform: translateY(20px); transition: transform 0.4s;
+        }
+        .sp-card:hover .sp-overlay { transform: translateY(0); }
+        .sp-overlay h3 { font-family: 'Playfair Display', serif; font-size: 32px; margin-bottom: 15px; font-style: italic; }
+        .sp-overlay p { font-size: 16px; opacity: 0.9; margin-bottom: 25px; line-height: 1.6; }
+
+        /* Reviews */
+        #reviews { background-color: #fff; text-align: center; padding: 100px 0; overflow: hidden; }
+        .review-wrapper {
+            position: relative; width: 100%; display: flex; overflow: hidden;
+            mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+            -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+        }
+        .review-track { display: flex; gap: 30px; width: max-content; animation: scroll 20s linear infinite; }
+        .review-track:hover { animation-play-state: paused; }
+        .review-card {
+            width: 350px; background: #FAFAFC; padding: 40px 30px; border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.03); border: 1px solid #eee; flex-shrink: 0; text-align: left;
+            transition: transform 0.3s;
+        }
+        .review-card:hover { transform: translateY(-5px); border-color: var(--primary-light); }
+        .stars { color: #FFD700; font-size: 14px; margin-bottom: 15px; }
+        .review-text { font-size: 16px; color: #444; line-height: 1.6; margin-bottom: 20px; font-weight: 400; min-height: 80px; }
+        .review-author { font-size: 14px; color: var(--primary-dark); font-weight: 700; display: flex; align-items: center; }
+        .review-author span { font-weight: 400; color: #888; margin-left: 10px; font-size: 13px; }
+
+        /* 4. PRODUCT PAGE STYLES */
+        .shop-container {
+            max-width: 1200px; margin: 120px auto 100px; padding: 0 5%;
+            display: none; /* 기본적으로 숨김 */
+            animation: fadeIn 0.5s ease-out;
+        }
+        .shop-header { text-align: center; margin-bottom: 60px; }
+        .shop-header h1 { font-size: 42px; color: var(--primary-dark); margin-bottom: 10px; }
+        .shop-header p { color: #666; font-size: 18px; }
+        
+        .product-grid-shop { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; }
+        .product-item {
+            background: #fff; border-radius: 10px; overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05); transition: transform 0.3s;
+        }
+        .product-item:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(82, 40, 105, 0.1); }
+        .prod-img { height: 350px; width: 100%; overflow: hidden; background-color: #f0f0f0; }
+        .prod-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
+        .product-item:hover .prod-img img { transform: scale(1.05); }
+        
+        .prod-info { padding: 25px; text-align: center; }
+        .prod-name { font-size: 18px; font-weight: 700; margin-bottom: 10px; color: #333; }
+        
+        /* Price Styles Update */
+        .price-container { margin-bottom: 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; }
+        .price-row { display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 14px; }
+        .original-price { text-decoration: line-through; color: #999; }
+        .discount-rate { color: var(--sale-color); font-weight: 700; }
+        .final-price { font-size: 20px; font-weight: 700; color: var(--primary-dark); }
+        .sale-badge {
+            display: inline-block; background-color: var(--sale-color); color: #fff;
+            padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; margin-bottom: 5px; letter-spacing: 0.5px;
+        }
+
+        .btn-buy {
+            display: inline-block; width: 100%; padding: 12px 0; border: 1px solid var(--primary-dark);
+            background: #fff; color: var(--primary-dark); font-weight: 600; border-radius: 5px; cursor: pointer; transition: all 0.3s;
+        }
+        .btn-buy:hover { background: var(--primary-dark); color: #fff; }
+
+        /* Footer */
+        footer { background-color: #2a1b36; color: #d1c4d9; padding: 70px 5%; text-align: center; }
+        .footer-logo { font-size: 30px; color: #fff; margin-bottom: 30px; font-style: italic; }
+        .footer-links { margin-bottom: 30px; display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
+        .footer-links a { font-size: 14px; color: #fff; opacity: 0.7; margin: 0; }
+        .footer-links a:hover { opacity: 1; color: var(--primary-light); }
+        .contact-details p { margin-bottom: 8px; font-size: 14px; line-height: 1.5; }
+        .sns-icons { margin-top: 25px; }
+        .sns-icons i { font-size: 24px; margin: 0 10px; color: #fff; transition: color 0.3s; cursor: pointer; }
+        .sns-icons i:hover { color: var(--primary-light); }
+
+        /* 📱 모바일 반응형 전면 수정 (Mobile Responsiveness) */
+        @media (max-width: 768px) {
+            /* 헤더 여백 및 메뉴 숨김 */
+            header { padding: 12px 20px; }
+            .logo { font-size: 22px; }
+            nav ul { display: none; }
+            .btn-reservation { padding: 8px 18px; font-size: 13px; }
+
+            /* 공통 섹션 여백 축소 */
+            section { padding: 60px 5%; }
+            .section-title { font-size: 26px; margin-bottom: 40px; }
+
+            /* 히어로 텍스트 축소 */
+            .hero-text { font-size: 20px; }
+            .btn-hero { padding: 12px 30px; font-size: 14px; }
+
+            /* 레이아웃: 그리드 -> 세로 1열 변경 */
+            #philosophy, #about { flex-direction: column; gap: 40px; }
+            .program-grid, .sp-grid, .product-grid-shop { grid-template-columns: 1fr; gap: 30px; }
+
+            /* 스토리 (Philosophy) */
+            .story-title { font-size: 24px; }
+            .text-content h3 { font-size: 22px; margin-bottom: 20px; }
+            .text-content p { font-size: 15px; }
+            .story-highlight { font-size: 16px; }
+            .image-box { border-radius: 15px; box-shadow: 15px 15px 0px var(--primary-light); }
+
+            /* 프로그램 카드 */
+            .program-img-box { height: 220px; }
+            .program-info { padding: 25px 20px; }
+            .program-info h4 { font-size: 20px; }
+            .program-info p { font-size: 14px; }
+
+            /* 진단과정 (Process) */
+            .steps { flex-direction: column; align-items: center; gap: 35px; margin-top: 40px; }
+            .steps::before { display: none; } /* 연결선 제거 */
+            .step-item { width: 100%; max-width: 320px; padding: 0; }
+            .step-num { width: 50px; height: 50px; font-size: 16px; margin-bottom: 15px; }
+
+            /* 원장 소개 (About) */
+            .instructor-img { height: auto; aspect-ratio: 4 / 5; border-radius: 15px 0 15px 0; box-shadow: -10px 10px 0 var(--primary-light); }
+            .instructor-info h3 { font-size: 26px; }
+            .instructor-role { font-size: 14px; margin-bottom: 15px; }
+            .instructor-info > p, .career-list li { font-size: 14px; }
+
+            /* 공간 및 제품 (Space & Product) */
+            .sp-card { height: 380px; border-radius: 15px; }
+            .sp-overlay { padding: 30px 25px; }
+            .sp-overlay h3 { font-size: 26px; margin-bottom: 10px; }
+            .sp-overlay p { font-size: 14px; margin-bottom: 0; }
+
+            /* 리뷰 (Reviews) */
+            #reviews { padding: 60px 0; }
+            .review-card { width: 280px; padding: 30px 20px; } /* 카드 너비 축소로 화면 넘어감 방지 */
+            .review-text { font-size: 14px; min-height: 70px; margin-bottom: 15px; }
+            .review-author { font-size: 13px; }
+
+            /* 샵/제품 페이지 */
+            .shop-container { margin-top: 80px; padding: 0 5% 60px; }
+            .shop-header h1 { font-size: 28px; }
+            .shop-header p { font-size: 15px; }
+            .prod-img { height: 280px; }
+            .prod-name { font-size: 17px; }
+            .final-price { font-size: 18px; }
+
+            /* 푸터 */
+            footer { padding: 50px 5%; }
+            .footer-logo { font-size: 24px; margin-bottom: 20px; }
+            .footer-links { gap: 15px; margin-bottom: 25px; }
+            .footer-links a { font-size: 13px; }
+            .contact-details p { font-size: 13px; }
+        }
+        
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(calc(-350px * 4 - 120px)); } }
+        /* 모바일 리뷰 스크롤 속도 최적화 */
+        @media (max-width: 768px) {
+            @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(calc(-280px * 4 - 120px)); } }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header / Nav -->
+    <header>
+        <a href="#" onclick="showMain(); return false;" class="logo">Mood</a>
+        <nav>
+            <ul>
+                <li><a href="#philosophy" onclick="showMain()">스토리</a></li>
+                <li><a href="#program" onclick="showMain()">프로그램</a></li>
+                <li><a href="#process" onclick="showMain()">진단과정</a></li>
+                <li><a href="#" onclick="showShop(); return false;">제품</a></li> <!-- 제품 클릭 시 showShop 실행 -->
+            </ul>
+        </nav>
+        <a href="http://pf.kakao.com/_XLhkn" target="_blank" class="btn-reservation">예약하기</a>
+    </header>
+
+    <!-- LANDING PAGE CONTENT (Wrapper) -->
+    <div id="landing-page">
+        <!-- Hero Section -->
+        <section id="hero">
+            <div class="hero-content">
+                <p class="hero-text">나만의 분위기, Mood에서 찾다</p>
+                <a href="#program" class="btn-hero" onclick="showMain();">무드 찾으러 가기</a>
+            </div>
+        </section>
+
+        <!-- Brand Philosophy -->
+        <section id="philosophy">
+            <div class="text-content">
+                <h2 class="serif-font story-title">Brand Story</h2>
+                <h3>"몽환적인 감성 한 스푼."</h3>
+                <p>Mood(무드)는 단순한 피부톤 진단을 넘어,</p>
+                <p>당신만이 가진 고유의 분위기를 찾아드립니다.</p>
+                <br>
+                <p>가장 편안하고 미니멀한 공간에서,</p>
+                <p>나를 표현하는 가장 완벽한 컬러를 만나보세요.</p>
+                <p class="story-highlight">Find Your Mood, Define Your Color.</p>
+            </div>
+            <div class="image-box">
+                <img src="https://i.ifh.cc/RZNMjq.jpg" alt="Mood Brand Image">
+            </div>
+        </section>
+
+        <!-- Programs -->
+        <section id="program">
+            <h2 class="section-title">Mood Programs</h2>
+            <div class="program-grid">
+                <div class="program-card">
+                    <div class="program-img-box"><img src="https://i.ifh.cc/nYNbQc.jpg" alt="Basic Mood Analysis"></div>
+                    <div class="program-info">
+                        <h4>베이직 무드 (Basic)</h4>
+                        <p>나의 베스트 톤과 고유의 분위기를 찾아가는<br>퍼스널 컬러 진단 입문 필수 코스입니다.</p>
+                    </div>
+                </div>
+                <div class="program-card">
+                    <div class="program-img-box"><img src="https://i.ifh.cc/lgd29z.jpg" alt="Premium Styling"></div>
+                    <div class="program-info">
+                        <h4>프리미엄 스타일 (Premium)</h4>
+                        <p>파우치 점검부터 메이크업, 패션 코칭까지.<br>당신의 스타일을 완벽하게 설계해 드립니다.</p>
+                    </div>
+                </div>
+                <div class="program-card">
+                    <div class="program-img-box"><img src="https://i.ifh.cc/PsaHP4.jpg" alt="Wedding Color Plan"></div>
+                    <div class="program-info">
+                        <h4>웨딩 플랜 (Wedding)</h4>
+                        <p>생애 가장 빛나는 순간을 위해.<br>웨딩 드레스 투어 및 메이크업 1:1 큐레이션.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Process -->
+        <section id="process">
+            <div class="process-container">
+                <h2 class="section-title">Process</h2>
+                <div class="steps">
+                    <div class="step-item">
+                        <div class="step-num">01</div>
+                        <h4>이미지 바이브</h4>
+                        <p>내면의 성향과 외면의 색을 일치시킬<br>'나만의 고유한 분위기(Vibe)'를 분석</p>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-num">02</div>
+                        <h4>드레이핑 진단</h4>
+                        <p>120가지 전문 드레이프 천으로<br>베스트/워스트 컬러 도출</p>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-num">03</div>
+                        <h4>파우치 점검</h4>
+                        <p>사용 중인 화장품 분석 및<br>인생템 추천</p>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-num">04</div>
+                        <h4>스타일링 코칭</h4>
+                        <p>메이크업 시연 및<br>패션/액세서리 스타일링 제안</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About -->
+        <section id="about">
+            <img src="https://i.ifh.cc/mf3A1L.jpg" alt="김소민 대표" class="instructor-img">
+            <div class="instructor-info">
+                <h3>김소민 대표 원장</h3>
+                <span class="instructor-role">Head Colorist & Founder</span>
+                <p>10년 이상의 컬러 컨설팅 노하우로 당신의 숨겨진 매력을 찾아드립니다. 편안한 분위기 속에서 전문가의 섬세한 터치를 경험해보세요.</p>
+                <ul class="career-list">
+                    <li>컬러리스트 산업기사 자격 보유</li>
+                    <li>KS 색채 시스템 마스터</li>
+                    <li>前 유명 K-뷰티 브랜드 메이크업 아티스트</li>
+                    <li>ColozArt 아카데미 정식 인증 강사</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Space & Product -->
+        <section id="space-product">
+            <h2 class="section-title">Space & Product</h2>
+            <div class="sp-grid">
+                <div class="sp-card" onclick="window.open('https://naver.me/5L71vVip', '_blank')">
+                    <img src="assets/studio-color-room.png" alt="거울과 컬러 진단용 천이 놓인 퍼스널 컬러 상담실 AI 연출 이미지">
+                    <div class="sp-overlay">
+                        <h3>The Studio</h3>
+                        <span style="display:block;font-size:11px;line-height:1.5;opacity:.85;margin-bottom:8px">AI 공간 연출 이미지 · 실제 매장 사진 아님</span>
+                        <p>오롯이 당신에게 집중할 수 있는 공간.<br>이미지 바이브 진단 기반으로<br>나만의 정확한 컬러를 찾아보세요.</p>
+                    </div>
+                </div>
+                <div class="sp-card" onclick="showShop()"> <!-- 여기를 눌러도 제품 페이지로 이동 -->
+                    <img src="https://i.ifh.cc/KQ2ovm.jpg" alt="Mood Signature Cosmetics">
+                    <div class="sp-overlay">
+                        <h3>Mood Essentials</h3>
+                        <p>진단 결과를 일상으로 가져가세요.<br>퍼스널 컬러 전문가가 직접 큐레이션한 Mood만의 시그니처 코스메틱 & 컬러 카드.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Reviews -->
+        <section id="reviews">
+            <h2 class="section-title">Real Reviews</h2>
+            <div class="review-wrapper">
+                <div class="review-track">
+                    <!-- Review Items (Reduced for brevity, animation loops these) -->
+                    <div class="review-card">
+                        <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                        <p class="review-text">"드디어 저만의 분위기를 찾았어요. 스튜디오도 너무 예쁘고, 선생님 설명이 정말 꼼꼼해서 시간 가는 줄 몰랐습니다!"</p>
+                        <div class="review-author">박지* 님 <span>여름 뮤트</span></div>
+                    </div>
+                    <div class="review-card">
+                        <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i></div>
+                        <p class="review-text">"평소에 입던 옷들이 왜 안 어울렸는지 이제야 알겠네요. 파우치 점검해주신 덕분에 인생 립스틱 건졌습니다."</p>
+                        <div class="review-author">김민* 님 <span>가을 딥</span></div>
+                    </div>
+                    <div class="review-card">
+                        <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                        <p class="review-text">"웨딩 패키지로 다녀왔는데 드레스 고를 때 확신이 생겼어요. 식장 조명까지 고려해주시는 디테일에 감동!"</p>
+                        <div class="review-author">이수* 님 <span>봄 라이트</span></div>
+                    </div>
+                    <div class="review-card">
+                        <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                        <p class="review-text">"친구 추천으로 왔는데 기대 이상입니다. 단순히 색만 봐주는 게 아니라 이미지 컨설팅을 받는 느낌이었어요."</p>
+                        <div class="review-author">최현* 님 <span>겨울 다크</span></div>
+                    </div>
+                    <!-- Duplicate for loop -->
+                    <div class="review-card">
+                        <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                        <p class="review-text">"드디어 저만의 분위기를 찾았어요. 스튜디오도 너무 예쁘고, 선생님 설명이 정말 꼼꼼해서 시간 가는 줄 몰랐습니다!"</p>
+                        <div class="review-author">박지* 님 <span>여름 뮤트</span></div>
+                    </div>
+                    <div class="review-card">
+                        <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i></div>
+                        <p class="review-text">"평소에 입던 옷들이 왜 안 어울렸는지 이제야 알겠네요. 파우치 점검해주신 덕분에 인생 립스틱 건졌습니다."</p>
+                        <div class="review-author">김민* 님 <span>가을 딥</span></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div> <!-- End of Landing Page -->
+
+    <!-- PRODUCT PAGE CONTENT (Hidden by default) -->
+    <div id="shop-content" class="shop-container">
+        <div class="shop-header">
+            <h1>Mood Essentials</h1>
+            <p>나만의 분위기를 완성하는 시그니처 아이템</p>
+        </div>
+
+        <div class="product-grid-shop">
+            <!-- Product 1: 30% OFF -->
+            <div class="product-item">
+                <div class="prod-img">
+                    <img src="https://i.ifh.cc/nPdLJS.jpg" alt="Mood Glow Lip Balm">
+                </div>
+                <div class="prod-info">
+                    <h3 class="prod-name">무드 글로우 립밤</h3>
+                    <div class="price-container">
+                        <span class="sale-badge">SALE</span>
+                        <div class="price-row">
+                            <span class="original-price">28,000원</span>
+                            <span class="discount-rate">30%</span>
+                        </div>
+                        <p class="final-price">19,600원</p>
+                    </div>
+                    <button class="btn-buy" onclick="addToCart('무드 글로우 립밤')">구매하기</button>
+                </div>
+            </div>
+
+            <!-- Product 2: 30% OFF -->
+            <div class="product-item">
+                <div class="prod-img">
+                    <img src="https://i.ifh.cc/SY9dgA.jpg" alt="Soft Layering Blush">
+                </div>
+                <div class="prod-info">
+                    <h3 class="prod-name">소프트 레이어링 블러셔</h3>
+                    <div class="price-container">
+                        <span class="sale-badge">SALE</span>
+                        <div class="price-row">
+                            <span class="original-price">32,000원</span>
+                            <span class="discount-rate">30%</span>
+                        </div>
+                        <p class="final-price">22,400원</p>
+                    </div>
+                    <button class="btn-buy" onclick="addToCart('소프트 레이어링 블러셔')">구매하기</button>
+                </div>
+            </div>
+
+            <!-- Product 3: 30% OFF -->
+            <div class="product-item">
+                <div class="prod-img">
+                    <img src="https://i.ifh.cc/Y7tdqn.jpg" alt="Personal Color Card">
+                </div>
+                <div class="prod-info">
+                    <h3 class="prod-name">퍼스널 컬러 카드 (진단용)</h3>
+                    <div class="price-container">
+                        <span class="sale-badge">SALE</span>
+                        <div class="price-row">
+                            <span class="original-price">15,000원</span>
+                            <span class="discount-rate">30%</span>
+                        </div>
+                        <p class="final-price">10,500원</p>
+                    </div>
+                    <button class="btn-buy" onclick="addToCart('퍼스널 컬러 카드')">구매하기</button>
+                </div>
+            </div>
+
+            <!-- Product 4: 20% OFF (New) -->
+            <div class="product-item">
+                <div class="prod-img">
+                    <img src="https://i.ifh.cc/SvfRCg.jpg" alt="Mood Type Analysis Program">
+                </div>
+                <div class="prod-info">
+                    <h3 class="prod-name">무드 타입 분석프로그램</h3>
+                    <div class="price-container">
+                        <span class="sale-badge" style="background-color: #9B59B6;">PROGRAM</span>
+                        <div class="price-row">
+                            <span class="original-price">150,000원</span>
+                            <span class="discount-rate">20%</span>
+                        </div>
+                        <p class="final-price">120,000원</p>
+                    </div>
+                    <button class="btn-buy" onclick="addToCart('무드 타입 분석프로그램')">구매하기</button>
+                </div>
+            </div>
+
+            <!-- Product 5: 30% OFF (New) -->
+            <div class="product-item">
+                <div class="prod-img">
+                    <img src="https://i.ifh.cc/owflMZ.jpg" alt="Mood Package Event">
+                </div>
+                <div class="prod-info">
+                    <h3 class="prod-name">무드 패키지 이벤트</h3>
+                    <div class="price-container">
+                        <span class="sale-badge" style="background-color: #9B59B6;">EVENT</span>
+                        <div class="price-row">
+                            <span class="original-price">300,000원</span>
+                            <span class="discount-rate">30%</span>
+                        </div>
+                        <p class="final-price">210,000원</p>
+                    </div>
+                    <button class="btn-buy" onclick="addToCart('무드 패키지 이벤트')">구매하기</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="footer-logo">Mood</div>
+        <div class="footer-links">
+            <a href="#" onclick="showMain(); return false;">홈</a>
+            <a href="#philosophy" onclick="showMain()">브랜드 스토리</a>
+            <a href="#program" onclick="showMain()">프로그램</a>
+            <a href="http://pf.kakao.com/_XLhkn" target="_blank">예약문의</a>
+        </div>
+        <div class="contact-details">
+            <p>경기도 군포시 금정동 689-18</p>
+            <p>사업자번호 : 232-26-02167</p>
+            <p>contact DM : mood_official.1/ | 010-2802-9037</p>
+            <div class="sns-icons">
+                <a href="https://www.instagram.com/mood_official.1/" target="_blank">
+                    <i class="fa-brands fa-instagram"></i>
+                </a>
+            </div>
+        </div>
+        <p style="margin-top: 40px; font-size: 12px; color: #888;">&copy; 2024 Mood Personal Color. All rights reserved.</p>
+    </footer>
+
+    <!-- JavaScript to toggle pages -->
+    <script>
+        function showShop() {
+            document.getElementById('landing-page').style.display = 'none';
+            document.getElementById('shop-content').style.display = 'block';
+            window.scrollTo(0, 0); // 맨 위로 스크롤 이동
+        }
+
+        function showMain() {
+            document.getElementById('landing-page').style.display = 'block';
+            document.getElementById('shop-content').style.display = 'none';
+            window.scrollTo(0, 0);
+        }
+
+        function addToCart(productName) {
+            // 확인창 없이 바로 카카오톡 채널로 연결
+            window.open("http://pf.kakao.com/_XLhkn", "_blank");
+        }
+    </script>
+
+</body>
+</html>
