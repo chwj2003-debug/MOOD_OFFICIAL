@@ -308,6 +308,7 @@
             @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(calc(-280px * 4 - 120px)); } }
         }
     </style>
+    <link rel="stylesheet" href="/mood-popup.css">
 </head>
 <body>
 
@@ -653,5 +654,16 @@
         }
     </script>
 
+    <dialog id="mood-event-popup" aria-label="MOOD INSIGHT 행사 안내" aria-describedby="mood-event-description">
+        <div class="mood-popup-content">
+            <p class="mood-popup-sr-only" id="mood-event-description">MOOD INSIGHT. 2026년 11월 14일 토요일, 갈월동 1-5 4층. 프로그램 소개, 2027 메이크업 시연, 셀프 무드보드 제작, 퍼스널 립컬러 진단.</p>
+            <div class="mood-popup-poster"><img src="/assets/mood-insight-20261114.png" alt="MOOD INSIGHT 행사 포스터" decoding="async"></div>
+            <div class="mood-popup-actions">
+                <button type="button" data-popup-hide-today>오늘 하루 보지 않기</button>
+                <button type="button" data-popup-close autofocus>닫기 ×</button>
+            </div>
+        </div>
+    </dialog>
+    <script src="/mood-popup.js" defer></script>
 </body>
 </html>

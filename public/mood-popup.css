@@ -1,0 +1,18 @@
+#mood-event-popup {
+  border: 0; padding: 0; margin: auto;
+  width: min(460px, calc(100vw - 24px)); max-width: none;
+  max-height: calc(100vh - 24px); max-height: calc(100dvh - 24px);
+  background: #fff; color: #392640; border-radius: 12px;
+  box-shadow: 0 20px 80px #0005; overflow: hidden;
+}
+#mood-event-popup::backdrop { background: rgb(24 16 30 / 65%); }
+#mood-event-popup .mood-popup-content { display: flex; flex-direction: column; max-height: calc(100vh - 24px); max-height: calc(100dvh - 24px); }
+#mood-event-popup .mood-popup-poster { min-height: 0; display: flex; justify-content: center; background: #f7e3f0; }
+#mood-event-popup .mood-popup-poster img { display: block; width: 100%; height: auto; min-height: 0; max-height: calc(100vh - 80px); max-height: calc(100dvh - 80px); object-fit: contain; }
+#mood-event-popup .mood-popup-actions { display: flex; flex: 0 0 56px; background: #fff; }
+#mood-event-popup button { flex: 1; border: 0; background: #fff; color: #392640; font: inherit; font-size: 14px; cursor: pointer; padding: 14px 10px; }
+#mood-event-popup button + button { border-left: 1px solid #ece5ef; }
+#mood-event-popup button:hover { background: #f6eff8; }
+#mood-event-popup button:focus-visible { outline: 3px solid #75458e; outline-offset: -4px; }
+.mood-popup-sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+html:has(#mood-event-popup[open]) { overflow: hidden; }
