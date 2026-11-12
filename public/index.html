@@ -62,7 +62,7 @@
         /* 3. LANDING PAGE CONTENT STYLES */
         #hero {
             height: 100vh; width: 100%;
-            background-image: url('https://i.ifh.cc/kXCzdy.jpg');
+            background-image: url('/assets/mood-seamless-hero.png');
             background-size: cover; background-position: center; background-repeat: no-repeat;
             position: relative; display: flex; align-items: center; justify-content: center;
             text-align: center; color: #fff;
@@ -109,6 +109,19 @@
         .program-info { padding: 30px 30px 10px 30px; }
         .program-info h4 { font-size: 22px; margin-bottom: 10px; color: #222; }
         .program-info p { font-size: 16px; color: #666; line-height: 1.5; }
+
+        /* Hero image composition */
+        #hero { background-position: 72% center; color: #482451; }
+        #hero::before { background: linear-gradient(90deg, rgba(255,239,246,.6), rgba(255,239,246,0) 65%); }
+        #hero .hero-content { width: 100%; max-width: 1200px; text-align: left; padding: 0 5%; }
+        #hero .hero-text { text-shadow: 0 1px 12px rgba(255,255,255,.75); }
+        #hero .btn-hero { background: #522869; border-color: #522869; color: #fff; }
+        #hero .btn-hero:hover { background: #3e1e50; }
+        @media (max-width: 768px) {
+            #hero { background-position: 80% center; }
+            #hero .hero-content { align-self: flex-end; padding: 0 24px 70px; text-align: center; }
+            #hero::before { background: linear-gradient(0deg, rgba(255,239,246,.95), rgba(255,239,246,0) 58%); }
+        }
 
         /* Process */
         #process { background-color: #F6F4F8; width: 100%; max-width: none; padding: 100px 5%; }
