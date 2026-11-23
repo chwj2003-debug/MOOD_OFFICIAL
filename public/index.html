@@ -149,8 +149,8 @@
 
         /* About */
         #about { display: flex; align-items: center; gap: 60px; }
-        .instructor-img { flex: 1; height: 500px; object-fit: cover; border-radius: 20px 0 20px 0; box-shadow: -15px 15px 0 var(--primary-light); width: 100%; }
-        .instructor-info { flex: 1; }
+        .instructor-img { flex: 1 1 0; min-width: 0; height: 500px; object-fit: cover; object-position: center 35%; border-radius: 20px 0 20px 0; box-shadow: -15px 15px 0 var(--primary-light); width: calc((100% - 60px) / 2); }
+        .instructor-info { flex: 1; min-width: 0; }
         .instructor-info h3 { font-size: 32px; margin-bottom: 5px; color: #222; }
         .instructor-role { color: var(--primary-dark); font-weight: 600; margin-bottom: 25px; display: block; font-size: 15px; }
         .instructor-info > p { margin-bottom: 25px; color: #666; }
@@ -286,7 +286,7 @@
             .process-intro { font-size: 14px; }
 
             /* 원장 소개 (About) */
-            .instructor-img { height: auto; aspect-ratio: 4 / 5; border-radius: 15px 0 15px 0; box-shadow: -10px 10px 0 var(--primary-light); }
+            .instructor-img { flex: none; width: 100%; height: auto; aspect-ratio: 4 / 5; border-radius: 15px 0 15px 0; box-shadow: -10px 10px 0 var(--primary-light); }
             .instructor-info h3 { font-size: 26px; }
             .instructor-role { font-size: 14px; margin-bottom: 15px; }
             .instructor-info > p, .career-list li { font-size: 14px; }
@@ -383,7 +383,7 @@
                     </div>
                 </div>
                 <div class="program-card">
-                    <div class="program-img-box"><img src="https://i.ifh.cc/lgd29z.jpg" alt="Premium Styling"></div>
+                    <div class="program-img-box"><img src="assets/premium-styling-consultation.jpg" alt="의상과 컬러칩, 메이크업을 함께 살펴보는 프리미엄 스타일 상담 연출 이미지" loading="lazy" decoding="async"></div>
                     <div class="program-info">
                         <h4>프리미엄 스타일 (Premium)</h4>
                         <p>파우치 점검부터 메이크업, 패션 코칭까지.<br>당신의 스타일을 완벽하게 설계해 드립니다.</p>
@@ -447,7 +447,7 @@
 
         <!-- About -->
         <section id="about">
-            <img src="https://i.ifh.cc/mf3A1L.jpg" alt="김소민 대표" class="instructor-img">
+            <img src="assets/colorist-draping-consultation.jpg" alt="전문가가 고객에게 진단 천을 대고 퍼스널컬러를 살펴보는 상담 연출 이미지" class="instructor-img" loading="lazy" decoding="async">
             <div class="instructor-info">
                 <h3>김소민 대표 원장</h3>
                 <span class="instructor-role">Head Colorist & Founder</span>

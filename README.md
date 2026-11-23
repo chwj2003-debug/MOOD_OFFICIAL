@@ -17,4 +17,8 @@ Verify a preview before publishing to the official domain.
 Do not connect the unrelated solid-fiesta sticker/invitation repository.
 
 The Studio image is an AI-generated illustrative space, not a real store photo.
+The founder-section consultation and Premium Styling images are AI-generated
+illustrations featuring fictional adult models, not photographs of the actual
+founder or customers. Both are served from public/assets to avoid third-party
+image-host expiry.
 Other images, fonts, and icons currently use the original external hosts.
