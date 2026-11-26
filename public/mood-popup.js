@@ -2,7 +2,7 @@
   const popup = document.getElementById('mood-event-popup');
   if (!popup || typeof popup.showModal !== 'function') return;
   const image = popup.querySelector('img');
-  const storageKey = 'mood-insight-20261114-hidden-date';
+  const storageKey = 'mood-insight-20261205-hidden-date';
   const today = () => new Intl.DateTimeFormat('en-CA', {
     timeZone: 'Asia/Seoul', year: 'numeric', month: '2-digit', day: '2-digit'
   }).format(new Date());
